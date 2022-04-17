@@ -5,7 +5,7 @@
 # Last Modified By  : Aymane N <anaouadi@students.42wolfsburg.de>
 
 NAME = philo
-CFILES = main.c utils.c
+CFILES = main.c utils.c utils2.c
 FLAGS = -Wall -Werror -Wextra
 
 all:

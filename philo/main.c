@@ -8,13 +8,17 @@
 
 #include	"philo.h"
 
-int main()
+int main(int argc, char** argv)
 {
+	info_t	info;
+
 	/* int			forks[5]; */
 	pthread_t	philosophers[5];
 
 	/* for ( int i = 0;  i < 5; ++i ) */
 	/* 	forks[i] = 0; */
+
+	init_args ( &info, argv );
 
 	for ( int i = 0; i < 5; i++ )
 	{
@@ -28,5 +32,5 @@ int main()
 		pthread_join ( philosophers[i], NULL );
 	}
 
-	return (0);
+	return (argc);
 }
