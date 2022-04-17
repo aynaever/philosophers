@@ -60,10 +60,21 @@ int     ft_atoi(const char *nptr)
         return (sign * rslt);
 }
 
-void	init_args ( info_t* info, char** argv )
+int	init_args ( info_t* info, int argc, char** argv )
 {
-	info->nPhilos = ft_atoi ( argv[1] );
-	info->timeToDie = ft_atoi ( argv[2] );
-	info->timeToEat = ft_atoi ( argv[3] );
-	info->timeToSleep = ft_atoi ( argv[4] );
+	if ( argc >= 5 && argc <= 6 )
+	{
+		info->nPhilos = ft_atoi ( argv[1] );
+		info->timeToDie = ft_atoi ( argv[2] );
+		info->timeToEat = ft_atoi ( argv[3] );
+		info->timeToSleep = ft_atoi ( argv[4] );
+		return (0);
+	}
+	else
+	{
+		printf ( "Please Enter Arguments as follows: <number_of_philosophers>\
+ <time_to_die> <time_to_eat> <time_to_sleep> \
+[number_of_times_each_philosopher_must_eat]\n");
+		return (-1);
+	}
 }

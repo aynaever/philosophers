@@ -18,7 +18,8 @@ int main(int argc, char** argv)
 	/* for ( int i = 0;  i < 5; ++i ) */
 	/* 	forks[i] = 0; */
 
-	init_args ( &info, argv );
+	if ( init_args ( &info, argc, argv ) == -1 )
+		return (1);
 
 	for ( int i = 0; i < 5; i++ )
 	{
@@ -32,5 +33,5 @@ int main(int argc, char** argv)
 		pthread_join ( philosophers[i], NULL );
 	}
 
-	return (argc);
+	return (0);
 }

@@ -28,7 +28,7 @@ void*	p_think ( void* value );
 void*	p_sleep ( void* value );
 void*	p_dine ( void* value );
 suseconds_t	printTimeStamp ( void );
-void	init_args ( info_t* info, char** argv );
+int	init_args ( info_t* info, int argc, char** argv );
 int     ft_atoi(const char *nptr);
 
 #endif /* ifndef PHILO_H */
