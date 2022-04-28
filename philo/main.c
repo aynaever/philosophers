@@ -12,18 +12,25 @@ int main(int argc, char** argv)
 {
 	info_t	info;
 
-	/* int			forks[5]; */
+	int			forks[5];
 	pthread_t	philosophers[5];
+	info.forks = forks;
+	pthread_mutex_t	mutex[5];
+	info.lock = malloc ( sizeof(pthread_mutex_t*) * 5 );
 
-	/* for ( int i = 0;  i < 5; ++i ) */
-	/* 	forks[i] = 0; */
+	for ( int i = 0;  i < 5; i++ )
+	{
+		forks[i] = 0;
+		info.lock[i] = &mutex[i];
+	}
 
 	if ( init_args ( &info, argc, argv ) == -1 )
 		return (1);
 
 	for ( int i = 0; i < 5; i++ )
 	{
-		pthread_create ( &philosophers[i], NULL, p_dine, &i );
+		info.i = i;
+		pthread_create ( &philosophers[i], NULL, p_dine, &info );
 		usleep (500);
 	}
 

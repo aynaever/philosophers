@@ -6,7 +6,7 @@
 
 NAME = philo
 CFILES = main.c utils.c utils2.c
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 
 all:
 	gcc $(CFILES) $(FLAGS) -o $(NAME)
