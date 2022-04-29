@@ -10,21 +10,20 @@
 
 int main(int argc, char** argv)
 {
-	info_t	info;
-
-	int			forks[5];
-	pthread_t	philosophers[5];
-	info.forks = forks;
+	info_t			info;
 	pthread_mutex_t	mutex[5];
 	philo_t			philos[5];
+	int				forks[5];
+	pthread_t		philosophers[5];
+
+	info.forks = forks;
 	info.lock = malloc ( sizeof(pthread_mutex_t*) * 5 );
-	info.philos = malloc ( sizeof(philo_t*) * 5 );
 
 	for ( int i = 0;  i < 5; i++ )
 	{
 		forks[i] = 0;
 		info.lock[i] = &mutex[i];
-		info.philos[i] = &philos[i];
+		philos[i].infos = &info;
 	}
 
 	if ( init_args ( &info, argc, argv ) == -1 )
@@ -32,9 +31,8 @@ int main(int argc, char** argv)
 
 	for ( int i = 0; i < 5; i++ )
 	{
-		info.i = i;
-		pthread_create ( &philosophers[i], NULL, p_dine, &info );
-		usleep (500);
+		philos[i].i = i;
+		pthread_create ( &philosophers[i], NULL, p_dine, &philos[i] );
 	}
 
 	for ( int i = 0; i < 5; i++ )

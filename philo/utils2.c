@@ -66,7 +66,6 @@ int	init_args ( info_t* info, int argc, char** argv )
 		info->timeToDie = ft_atoi ( argv[2] );
 		info->timeToEat = ft_atoi ( argv[3] );
 		info->timeToSleep = ft_atoi ( argv[4] );
-		info->i = 0;
 		return (0);
 	}
 	else

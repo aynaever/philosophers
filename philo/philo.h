@@ -15,13 +15,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define	LEFT		(info->i + info->nPhilos - 1) % info->nPhilos
-# define	RIGHT		(info->i + 1) % info->nPhilos
-
-typedef	struct	philo_s
-{
-	int					lastMeal;
-}	philo_t;
+# define	LEFT		(philo->i + philo->infos->nPhilos - 1) % philo->infos->nPhilos
+# define	RIGHT		(philo->i + 1) % philo->infos->nPhilos
 
 typedef	struct	info_s
 {
@@ -29,11 +24,16 @@ typedef	struct	info_s
 	int					timeToDie;
 	int					timeToEat;
 	int					timeToSleep;
-	int					i;
-	philo_t**			philos;
 	int*				forks;
 	pthread_mutex_t**	lock;
 }	info_t;
+
+typedef	struct	philo_s
+{
+	int					lastMeal;
+	int					i;
+	info_t*				infos;
+}	philo_t;
 
 void*		p_eat ( void* value );
 void*		p_think ( void* value );
