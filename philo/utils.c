@@ -1,87 +1,83 @@
-/**
- * File              : utils.c
- * Author            : Aymane N <anaouadi@students.42wolfsburg.de>
- * Date              : 17.04.2022
- * Last Modified Date: 17.04.2022
- * Last Modified By  : Aymane N <anaouadi@students.42wolfsburg.de>
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anaouadi <anaouadi@student.42wolfsbu       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/29 15:13:12 by anaouadi          #+#    #+#             */
+/*   Updated: 2022/04/29 15:24:17 by anaouadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include	"philo.h"
 
-void*	p_eat ( void* value )
+void	*p_eat(void *value)
 {
-	philo_t*	philo;
+	t_philo	*philo;
+	int		left;
+	int		right;
 
-	philo = (philo_t*) value;
-
-	/* Keep trying to acquire the forks */
-	while ( (philo->infos->forks[LEFT] == 1) | (philo->infos->forks[RIGHT] == 1) )
+	philo = (t_philo *) value;
+	right = (philo->i + 1) % philo->infos->n_philos;
+	left = (philo->i + philo->infos->n_philos - 1) % philo->infos->n_philos;
+	while ((philo->infos->forks[left] == 1) | (philo->infos->forks[right] == 1))
 	{
-		if ( philo->infos->timeToDie <= (philo->lastMeal * 1000) )
+		if (philo->infos->time_to_die <= (philo->last_meal * 1000))
 		{
-			printf(RED"%ld %d died\n", printTimeStamp(), philo->i);
-			return ( (void*) &philo->infos );
+			printf(RED"%ld %d died\n", print_time_stamp(), philo->i);
+			return ((void *) &philo->infos);
 		}
 	}
-
-	pthread_mutex_lock ( philo->infos->lock[philo->i] );
-
-	philo->lastMeal = printTimeStamp();
-	/* Change state of forks to 1 */
-	philo->infos->forks[LEFT] = 1;
-	philo->infos->forks[RIGHT] = 1;
-	printf(BLUE"%ld %d Philosopher is eating\n", printTimeStamp(), philo->i);
-	/* Wait for philospher to eat */
-	usleep ( philo->infos->timeToEat * 1000 );
-
-	/* Put Forks */
-	philo->infos->forks[LEFT] = 0;
-	philo->infos->forks[RIGHT] = 0;
-
-	pthread_mutex_unlock ( philo->infos->lock[philo->i] );
-
-	return ( NULL );
+	pthread_mutex_lock(philo->infos->lock[philo->i]);
+	philo->last_meal = print_time_stamp();
+	philo->infos->forks[left] = 1;
+	philo->infos->forks[right] = 1;
+	printf(BLUE"%ld %d Philosopher is eating\n", print_time_stamp(), philo->i);
+	usleep(philo->infos->time_to_eat * 1000);
+	philo->infos->forks[left] = 0;
+	philo->infos->forks[right] = 0;
+	pthread_mutex_unlock(philo->infos->lock[philo->i]);
+	return (NULL);
 }
 
-void*	p_think ( void* value )
+void	*p_think(void *value)
 {
-	philo_t*	philo;
+	t_philo	*philo;
 
-	philo = (philo_t*) value;
-	printf(YELLOW"%ld %d Philosopher is thinking\n", printTimeStamp(), philo->i);
-
-	return ( NULL );
+	philo = (t_philo *) value;
+	printf(YELLOW"%ld %d Philosopher is thinking\n"\
+	, print_time_stamp(), philo->i);
+	return (NULL);
 }
 
-void*	p_sleep ( void* value )
+void	*p_sleep(void *value)
 {
-	philo_t*	philo;
+	t_philo	*philo;
 
-	philo = (philo_t*) value;
-	printf(CYAN"%ld %d Philosopher is sleeping\n", printTimeStamp(), philo->i);
-	usleep ( philo->infos->timeToSleep * 1000 );
-	return ( NULL );
+	philo = (t_philo *) value;
+	printf(CYAN"%ld %d Philosopher is sleeping\n", print_time_stamp(), philo->i);
+	usleep(philo->infos->time_to_sleep * 1000);
+	return (NULL);
 }
 
-void*	p_dine ( void* value )
+void	*p_dine(void *value)
 {
-	philo_t*	philo;
+	t_philo	*philo;
 
-	philo = (philo_t*) value;
-	philo->lastMeal = printTimeStamp();
-
+	philo = (t_philo *) value;
+	philo->last_meal = print_time_stamp();
 	while (1)
 	{
-		if (p_eat ( value ) != NULL )
-			return ( NULL );
-		p_sleep ( value );
-		p_think ( value );
+		if (p_eat(value) != NULL )
+			return (NULL);
+		p_sleep(value);
+		p_think(value);
 	}
-
-	return ( NULL );
+	return (NULL);
 }
 
-suseconds_t	printTimeStamp ( void )
+suseconds_t	print_time_stamp(void)
 {
 	struct timeval	tp;
 
