@@ -17,7 +17,7 @@ void*	p_eat ( void* value )
 	/* Keep trying to acquire the forks */
 	while ( (philo->infos->forks[LEFT] == 1) | (philo->infos->forks[RIGHT] == 1) )
 	{
-		if ( philo->infos->timeToDie <= philo->lastMeal )
+		if ( philo->infos->timeToDie <= (philo->lastMeal * 1000) )
 		{
 			printf("%ld %d died\n", printTimeStamp(), philo->i);
 			return ( (void*) &philo->infos );
