@@ -6,7 +6,7 @@
 /*   By: anaouadi <anaouadi@student.42wolfsbu       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 16:08:05 by anaouadi          #+#    #+#             */
-/*   Updated: 2022/04/29 16:10:36 by anaouadi         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:14:27 by anaouadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,21 @@ void	*take_forks(void *value)
 			return ((void *) &philo->infos);
 		}
 	}
+	philo->infos->forks[left] = 1;
+	philo->infos->forks[right] = 1;
+	return (NULL);
+}
+
+void	*put_forks(void *value)
+{
+	t_philo	*philo;
+	int		left;
+	int		right;
+
+	philo = (t_philo *) value;
+	right = (philo->i + 1) % philo->infos->n_philos;
+	left = (philo->i + philo->infos->n_philos - 1) % philo->infos->n_philos;
+	philo->infos->forks[left] = 0;
+	philo->infos->forks[right] = 0;
 	return (NULL);
 }

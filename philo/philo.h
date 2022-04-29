@@ -6,7 +6,7 @@
 /*   By: anaouadi <anaouadi@student.42wolfsbu       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 14:53:56 by anaouadi          #+#    #+#             */
-/*   Updated: 2022/04/29 15:08:33 by anaouadi         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:07:30 by anaouadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ void		*p_eat(void *value);
 void		*p_think(void *value);
 void		*p_sleep(void *value);
 void		*p_dine(void *value);
-suseconds_t	printTimeStamp(void);
-int			init_args(info_t *info, int argc, char **argv);
+suseconds_t	print_time_stamp(void);
+int			init_args(t_info *info, int argc, char **argv);
 int			ft_atoi(const char *nptr);
+void		*take_forks(void *value);
+void		*put_forks(void *value);
 
 #endif /* ifndef PHILO_H */

@@ -6,7 +6,7 @@
 /*   By: anaouadi <anaouadi@student.42wolfsbu       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:13:12 by anaouadi          #+#    #+#             */
-/*   Updated: 2022/04/29 16:09:34 by anaouadi         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:14:10 by anaouadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,14 @@
 void	*p_eat(void *value)
 {
 	t_philo	*philo;
-	int		left;
-	int		right;
 
 	philo = (t_philo *) value;
-	right = (philo->i + 1) % philo->infos->n_philos;
-	left = (philo->i + philo->infos->n_philos - 1) % philo->infos->n_philos;
 	take_forks(value);
 	pthread_mutex_lock(philo->infos->lock[philo->i]);
 	philo->last_meal = print_time_stamp();
-	philo->infos->forks[left] = 1;
-	philo->infos->forks[right] = 1;
 	printf(BLUE"%ld %d Philosopher is eating\n", print_time_stamp(), philo->i);
 	usleep(philo->infos->time_to_eat * 1000);
-	philo->infos->forks[left] = 0;
-	philo->infos->forks[right] = 0;
+	put_forks(value);
 	pthread_mutex_unlock(philo->infos->lock[philo->i]);
 	return (NULL);
 }
