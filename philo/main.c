@@ -18,11 +18,13 @@ int main(int argc, char** argv)
 
 	info.forks = forks;
 	info.lock = malloc ( sizeof(pthread_mutex_t*) * 5 );
+	info.threads = malloc ( sizeof(pthread_t*) * 5);
 
 	for ( int i = 0;  i < 5; i++ )
 	{
 		forks[i] = 0;
 		info.lock[i] = &mutex[i];
+		info.threads[i] = &philosophers[i];
 		philos[i].infos = &info;
 	}
 

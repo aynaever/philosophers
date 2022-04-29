@@ -26,6 +26,7 @@ typedef	struct	info_s
 	int					timeToSleep;
 	int*				forks;
 	pthread_mutex_t**	lock;
+	pthread_t**			threads;
 }	info_t;
 
 typedef	struct	philo_s

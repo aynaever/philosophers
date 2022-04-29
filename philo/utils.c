@@ -13,7 +13,17 @@ void*	p_eat ( void* value )
 	philo_t*	philo;
 
 	philo = (philo_t*) value;
-	printf("%ld %d Philosopher is eating\n", printTimeStamp(), philo->i);
+
+	/* Keep trying to acquire the forks */
+	while ( (philo->infos->forks[LEFT] == 1) | (philo->infos->forks[RIGHT] == 1) )
+	{
+		if ( philo->infos->timeToDie <= philo->lastMeal )
+		{
+			printf("%ld %d died\n", printTimeStamp(), philo->i);
+			return ( (void*) &philo->infos );
+		}
+		printf("%ld %d Philosopher is eating\n", printTimeStamp(), philo->i);
+	}
 
 	pthread_mutex_lock ( philo->infos->lock[philo->i] );
 
@@ -30,6 +40,7 @@ void*	p_eat ( void* value )
 	philo->infos->forks[RIGHT] = 0;
 
 	pthread_mutex_unlock ( philo->infos->lock[philo->i] );
+
 	return ( NULL );
 }
 
@@ -39,9 +50,6 @@ void*	p_think ( void* value )
 
 	philo = (philo_t*) value;
 	printf("%ld %d Philosopher is thinking\n", printTimeStamp(), philo->i);
-
-	/* Keep trying to acquire the forks */
-	while ( (philo->infos->forks[LEFT] == 1) | (philo->infos->forks[RIGHT] == 1) );
 
 	return ( NULL );
 }
@@ -58,11 +66,15 @@ void*	p_sleep ( void* value )
 
 void*	p_dine ( void* value )
 {
-	printf ("Philosopher Created\n");
+	philo_t*	philo;
+
+	philo = (philo_t*) value;
+	printf ("%d Philosopher Created\n", philo->i);
 
 	while (1)
 	{
-		p_eat ( value );
+		if (p_eat ( value ) != NULL )
+			return ( NULL );
 		p_sleep ( value );
 		p_think ( value );
 	}
@@ -75,5 +87,5 @@ suseconds_t	printTimeStamp ( void )
 	struct timeval	tp;
 
 	gettimeofday(&tp, NULL);
-	return (tp.tv_usec);
+	return (tp.tv_sec + tp.tv_usec);
 }
