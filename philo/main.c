@@ -11,33 +11,34 @@
 int main(int argc, char** argv)
 {
 	info_t			info;
-	pthread_mutex_t	mutex[5];
-	philo_t			philos[5];
-	int				forks[5];
-	pthread_t		philosophers[5];
+	if ( init_args ( &info, argc, argv ) == -1 )
+		return (1);
+
+	pthread_mutex_t	mutex[info.nPhilos];
+	philo_t			philos[info.nPhilos];
+	int				forks[info.nPhilos];
+	pthread_t		philosophers[info.nPhilos];
 
 	info.forks = forks;
-	info.lock = malloc ( sizeof(pthread_mutex_t*) * 5 );
-	info.threads = malloc ( sizeof(pthread_t*) * 5);
+	info.lock = malloc ( sizeof(pthread_mutex_t*) * info.nPhilos );
+	info.threads = malloc ( sizeof(pthread_t*) * info.nPhilos);
 
-	for ( int i = 0;  i < 5; i++ )
+	for ( int i = 0;  i < info.nPhilos; i++ )
 	{
 		forks[i] = 0;
+		pthread_mutex_init(&mutex[i], NULL);
 		info.lock[i] = &mutex[i];
 		info.threads[i] = &philosophers[i];
 		philos[i].infos = &info;
 	}
 
-	if ( init_args ( &info, argc, argv ) == -1 )
-		return (1);
-
-	for ( int i = 0; i < 5; i++ )
+	for ( int i = 0; i < info.nPhilos; i++ )
 	{
 		philos[i].i = i;
 		pthread_create ( &philosophers[i], NULL, p_dine, &philos[i] );
 	}
 
-	for ( int i = 0; i < 5; i++ )
+	for ( int i = 0; i < info.nPhilos; i++ )
 	{
 		printf ("Thread n: %d\n", i);
 		pthread_join ( philosophers[i], NULL );

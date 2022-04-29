@@ -22,7 +22,6 @@ void*	p_eat ( void* value )
 			printf("%ld %d died\n", printTimeStamp(), philo->i);
 			return ( (void*) &philo->infos );
 		}
-		printf("%ld %d Philosopher is eating\n", printTimeStamp(), philo->i);
 	}
 
 	pthread_mutex_lock ( philo->infos->lock[philo->i] );
@@ -31,7 +30,7 @@ void*	p_eat ( void* value )
 	/* Change state of forks to 1 */
 	philo->infos->forks[LEFT] = 1;
 	philo->infos->forks[RIGHT] = 1;
-
+	printf("%ld %d Philosopher is eating\n", printTimeStamp(), philo->i);
 	/* Wait for philospher to eat */
 	usleep ( philo->infos->timeToEat * 1000 );
 
@@ -70,6 +69,7 @@ void*	p_dine ( void* value )
 
 	philo = (philo_t*) value;
 	printf ("%d Philosopher Created\n", philo->i);
+	philo->lastMeal = printTimeStamp();
 
 	while (1)
 	{
