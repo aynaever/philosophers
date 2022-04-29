@@ -6,7 +6,7 @@
 /*   By: anaouadi <anaouadi@student.42wolfsbu       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:13:12 by anaouadi          #+#    #+#             */
-/*   Updated: 2022/04/29 17:33:32 by anaouadi         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:37:00 by anaouadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	*p_sleep(void *value)
 	i = 0;
 	while (i < philo->infos->time_to_sleep / 5)
 	{
-		/* printf("%d I'm sleeping %d \n", philo->i,i); */
 		if (philo->infos->time_to_die <= (print_time_stamp() - philo->last_meal))
 		{
 			printf(RED"%ld %d died\n", print_time_stamp(), philo->i);
@@ -67,10 +66,6 @@ void	*p_dine(void *value)
 	philo->last_meal = print_time_stamp();
 	while (1)
 	{
-		/* printf("time_to_die=%ld\n", philo->infos->time_to_die); */
-		/* printf("diff time=%ld\n", print_time_stamp() - philo->last_meal); */
-		/* printf("last meal=%ld\n", philo->last_meal); */
-		/* printf("time stamp=%ld\n", print_time_stamp()); */
 		if (p_eat(value) != NULL )
 			return (NULL);
 		if (p_sleep(value) != NULL )
