@@ -20,6 +20,7 @@ void*	p_eat ( void* value )
 	/* Keep trying to acquire the forks */
 	while ( (info->forks[LEFT] == 1) | (info->forks[RIGHT] == 1) );
 
+	info->philos[info->i]->lastMeal = printTimeStamp();
 	/* Change state of forks to 1 */
 	info->forks[LEFT] = 1;
 	info->forks[RIGHT] = 1;

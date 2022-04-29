@@ -16,12 +16,15 @@ int main(int argc, char** argv)
 	pthread_t	philosophers[5];
 	info.forks = forks;
 	pthread_mutex_t	mutex[5];
+	philo_t			philos[5];
 	info.lock = malloc ( sizeof(pthread_mutex_t*) * 5 );
+	info.philos = malloc ( sizeof(philo_t*) * 5 );
 
 	for ( int i = 0;  i < 5; i++ )
 	{
 		forks[i] = 0;
 		info.lock[i] = &mutex[i];
+		info.philos[i] = &philos[i];
 	}
 
 	if ( init_args ( &info, argc, argv ) == -1 )

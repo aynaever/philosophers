@@ -18,6 +18,11 @@
 # define	LEFT		(info->i + info->nPhilos - 1) % info->nPhilos
 # define	RIGHT		(info->i + 1) % info->nPhilos
 
+typedef	struct	philo_s
+{
+	int					lastMeal;
+}	philo_t;
+
 typedef	struct	info_s
 {
 	int					nPhilos;
@@ -25,6 +30,7 @@ typedef	struct	info_s
 	int					timeToEat;
 	int					timeToSleep;
 	int					i;
+	philo_t**			philos;
 	int*				forks;
 	pthread_mutex_t**	lock;
 }	info_t;
