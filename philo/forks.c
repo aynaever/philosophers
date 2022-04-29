@@ -6,7 +6,7 @@
 /*   By: anaouadi <anaouadi@student.42wolfsbu       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 16:08:05 by anaouadi          #+#    #+#             */
-/*   Updated: 2022/04/29 16:14:27 by anaouadi         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:31:03 by anaouadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ void	*take_forks(void *value)
 	left = (philo->i + philo->infos->n_philos - 1) % philo->infos->n_philos;
 	while ((philo->infos->forks[left] == 1) | (philo->infos->forks[right] == 1))
 	{
-		if (philo->infos->time_to_die <= (philo->last_meal * 1000))
+		if (philo->infos->time_to_die <= (print_time_stamp() - philo->last_meal))
 		{
 			printf(RED"%ld %d died\n", print_time_stamp(), philo->i);
 			return ((void *) &philo->infos);
 		}
 	}
+	pthread_mutex_lock(philo->infos->lock[philo->i]);
 	philo->infos->forks[left] = 1;
 	philo->infos->forks[right] = 1;
 	return (NULL);
