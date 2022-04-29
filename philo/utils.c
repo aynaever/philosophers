@@ -6,7 +6,7 @@
 /*   By: anaouadi <anaouadi@student.42wolfsbu       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:13:12 by anaouadi          #+#    #+#             */
-/*   Updated: 2022/04/29 15:24:17 by anaouadi         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:09:34 by anaouadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,7 @@ void	*p_eat(void *value)
 	philo = (t_philo *) value;
 	right = (philo->i + 1) % philo->infos->n_philos;
 	left = (philo->i + philo->infos->n_philos - 1) % philo->infos->n_philos;
-	while ((philo->infos->forks[left] == 1) | (philo->infos->forks[right] == 1))
-	{
-		if (philo->infos->time_to_die <= (philo->last_meal * 1000))
-		{
-			printf(RED"%ld %d died\n", print_time_stamp(), philo->i);
-			return ((void *) &philo->infos);
-		}
-	}
+	take_forks(value);
 	pthread_mutex_lock(philo->infos->lock[philo->i]);
 	philo->last_meal = print_time_stamp();
 	philo->infos->forks[left] = 1;
