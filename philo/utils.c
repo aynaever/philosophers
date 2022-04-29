@@ -19,7 +19,7 @@ void*	p_eat ( void* value )
 	{
 		if ( philo->infos->timeToDie <= (philo->lastMeal * 1000) )
 		{
-			printf("%ld %d died\n", printTimeStamp(), philo->i);
+			printf(RED"%ld %d died\n", printTimeStamp(), philo->i);
 			return ( (void*) &philo->infos );
 		}
 	}
@@ -30,7 +30,7 @@ void*	p_eat ( void* value )
 	/* Change state of forks to 1 */
 	philo->infos->forks[LEFT] = 1;
 	philo->infos->forks[RIGHT] = 1;
-	printf("%ld %d Philosopher is eating\n", printTimeStamp(), philo->i);
+	printf(BLUE"%ld %d Philosopher is eating\n", printTimeStamp(), philo->i);
 	/* Wait for philospher to eat */
 	usleep ( philo->infos->timeToEat * 1000 );
 
@@ -48,7 +48,7 @@ void*	p_think ( void* value )
 	philo_t*	philo;
 
 	philo = (philo_t*) value;
-	printf("%ld %d Philosopher is thinking\n", printTimeStamp(), philo->i);
+	printf(YELLOW"%ld %d Philosopher is thinking\n", printTimeStamp(), philo->i);
 
 	return ( NULL );
 }
@@ -58,7 +58,7 @@ void*	p_sleep ( void* value )
 	philo_t*	philo;
 
 	philo = (philo_t*) value;
-	printf("%ld %d Philosopher is sleeping\n", printTimeStamp(), philo->i);
+	printf(CYAN"%ld %d Philosopher is sleeping\n", printTimeStamp(), philo->i);
 	usleep ( philo->infos->timeToSleep * 1000 );
 	return ( NULL );
 }
@@ -68,7 +68,6 @@ void*	p_dine ( void* value )
 	philo_t*	philo;
 
 	philo = (philo_t*) value;
-	printf ("%d Philosopher Created\n", philo->i);
 	philo->lastMeal = printTimeStamp();
 
 	while (1)

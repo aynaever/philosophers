@@ -40,7 +40,6 @@ int main(int argc, char** argv)
 
 	for ( int i = 0; i < info.nPhilos; i++ )
 	{
-		printf ("Thread n: %d\n", i);
 		pthread_join ( philosophers[i], NULL );
 	}
 
