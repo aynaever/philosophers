@@ -17,9 +17,6 @@ void*	p_eat ( void* value )
 
 	pthread_mutex_lock ( info->lock[info->i] );
 
-	/* Keep trying to acquire the forks */
-	while ( (info->forks[LEFT] == 1) | (info->forks[RIGHT] == 1) );
-
 	info->philos[info->i]->lastMeal = printTimeStamp();
 	/* Change state of forks to 1 */
 	info->forks[LEFT] = 1;
@@ -38,7 +35,14 @@ void*	p_eat ( void* value )
 
 void*	p_think ( void* value )
 {
+	info_t*	info;
+
+	info = (info_t*) value;
 	printf("%ld %d Philosopher is thinking\n", printTimeStamp(),*( int* ) value);
+
+	/* Keep trying to acquire the forks */
+	while ( (info->forks[LEFT] == 1) | (info->forks[RIGHT] == 1) );
+
 	return ( NULL );
 }
 
